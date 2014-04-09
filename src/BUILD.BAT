@@ -1,0 +1,24 @@
+@echo off
+rem echo COMPILE THE ASSEMBLY
+rem C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe /target:library /out:RegularExpressionsAssembly_002.dll RegularExpressions.cs
+
+echo CREATE THE HEXIFY APPLICATION
+C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe /out:010_HEXIFY\ashex.exe 010_HEXIFY\ashex.cs 
+
+echo.
+ECHO BUILD THE SIMMETRICS DLL
+ECHO.
+ECHO CONVERT SIMMETRICS DLL TO HEX FILE FOR LOADING INTO SQLSERVER
+010_HEXIFY\ashex.exe < 020_BUILD_SIMMETRICS\SimMetrics.dll  > 020_BUILD_SIMMETRICS\SimMetrics_1.5.dll.HEX
+
+ECHO.
+ECHO BUILD THE TEXT FUNCTIONS WRAPPER DLL
+C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe /r:030_BUILD_SIMILARITY\SimMetrics.dll /target:library /out:030_BUILD_SIMILARITY\SIMILARITY_001.dll 030_BUILD_SIMILARITY\SIMILARITY\Similarity.cs
+
+ECHO.
+ECHO CONVERT THE TEXT FUNCTIONS DLL TO HEX
+010_HEXIFY\ashex.exe < 030_BUILD_SIMILARITY\SIMILARITY_001.dll  > 030_BUILD_SIMILARITY\SIMILARITY_001.dll.HEX
+
+REM ashex.exe < TextFunctions.dll  > TextFunctions.dll.HEX
+
+pause
