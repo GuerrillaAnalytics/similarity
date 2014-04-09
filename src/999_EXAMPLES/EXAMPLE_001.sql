@@ -36,4 +36,6 @@ Select * from CompareStringMetrics('bristol', 'brighton') where score < 0.5
 
 SELECT SIMILARITY_001.Levenshtein('Enda Ridge', 'John Thomlinson')
 SELECT SIMILARITY_001.LevenshteinUnnormalised('Enda', 'Edna')
-SELECT SIMILARITY_001.Levenshtein('William', 'Devin')
+SELECT SIMILARITY_001.NeedlemanWunch('William', 'Devin')
+SELECT SIMILARITY_001.NeedlemanWunchUnnormalised('William', 'Devin')
+

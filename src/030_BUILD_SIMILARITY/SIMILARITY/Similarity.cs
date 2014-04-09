@@ -78,7 +78,15 @@ using SimMetricsMetricUtilities;
             return new SqlDouble(_NeedlemanWunch.GetSimilarity(firstWord.Value, secondWord.Value));
         }
 
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble NeedlemanWunchUnnormalised(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
 
+            return new SqlDouble(_NeedlemanWunch.GetUnnormalisedSimilarity(firstWord.Value, secondWord.Value));
+        }
+		
         [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
         public static SqlDouble SmithWaterman(SqlString firstWord, SqlString secondWord)
         {

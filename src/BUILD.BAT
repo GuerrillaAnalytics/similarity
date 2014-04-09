@@ -1,9 +1,15 @@
 @echo off
-rem echo COMPILE THE ASSEMBLY
-rem C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe /target:library /out:RegularExpressionsAssembly_002.dll RegularExpressions.cs
+
+REM -------------------------------------------------------------
+REM SET THE C SHARP COMPILER LOCATION USING BACKSLASHES AND QUOTES
+SET CSC=C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe
+
+REM -----------------------------------------------------------------------------------
+REM DO NOT EDIT BELOW HERE
+
 
 echo CREATE THE HEXIFY APPLICATION
-C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe /out:010_HEXIFY\ashex.exe 010_HEXIFY\ashex.cs 
+%CSC% /out:010_HEXIFY\ashex.exe 010_HEXIFY\ashex.cs 
 
 echo.
 ECHO BUILD THE SIMMETRICS DLL
@@ -13,12 +19,11 @@ ECHO CONVERT SIMMETRICS DLL TO HEX FILE FOR LOADING INTO SQLSERVER
 
 ECHO.
 ECHO BUILD THE TEXT FUNCTIONS WRAPPER DLL
-C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe /r:030_BUILD_SIMILARITY\SimMetrics.dll /target:library /out:030_BUILD_SIMILARITY\SIMILARITY_001.dll 030_BUILD_SIMILARITY\SIMILARITY\Similarity.cs
+%CSC% /r:030_BUILD_SIMILARITY\SimMetrics.dll /target:library /out:030_BUILD_SIMILARITY\SIMILARITY_001.dll 030_BUILD_SIMILARITY\SIMILARITY\Similarity.cs
 
 ECHO.
 ECHO CONVERT THE TEXT FUNCTIONS DLL TO HEX
 010_HEXIFY\ashex.exe < 030_BUILD_SIMILARITY\SIMILARITY_001.dll  > 030_BUILD_SIMILARITY\SIMILARITY_001.dll.HEX
 
-REM ashex.exe < TextFunctions.dll  > TextFunctions.dll.HEX
 
 pause
