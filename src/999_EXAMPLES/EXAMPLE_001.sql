@@ -33,9 +33,11 @@ Select * from CompareStringMetrics('Loyds', 'LLoyds') where score > 0.6
 Select * from CompareStringMetrics('bristol', 'brighton') where score < 0.5
 
 
+SELECT SIMILARITY_001.JaroWinkler('Ridge, Enda', 'Hau, Wai-Hung')
 
 SELECT SIMILARITY_001.Levenshtein('Enda Ridge', 'John Thomlinson')
 SELECT SIMILARITY_001.LevenshteinUnnormalised('Enda', 'Edna')
+
 SELECT SIMILARITY_001.NeedlemanWunch('William', 'Devin')
 SELECT SIMILARITY_001.NeedlemanWunchUnnormalised('William', 'Devin')
 

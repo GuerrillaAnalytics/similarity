@@ -48,7 +48,91 @@ using SimMetricsMetricUtilities;
             _OverlapCoefficient = new OverlapCoefficient();
         }
 
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble BlockDistance(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
 
+            return new SqlDouble(_BlockDistance.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble ChapmanLengthDeviation(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_ChapmanLengthDeviation.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble ChapmanMeanLength(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_ChapmanMeanLength.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+		
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble CosineSimilarity(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_CosineSimilarity.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+		
+
+       [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble DiceSimilarity(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_DiceSimilarity.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+		
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble EuclideanDistance(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_EuclideanDistance.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble JaccardSimilarity(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_JaccardSimilarity.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble Jaro(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_Jaro.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble JaroWinkler(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_JaroWinkler.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+		
+		
         [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
         public static SqlDouble Levenshtein(SqlString firstWord, SqlString secondWord)
         {
@@ -68,6 +152,26 @@ using SimMetricsMetricUtilities;
             return new SqlDouble(_Levenstein.GetUnnormalisedSimilarity(firstWord.Value, secondWord.Value));
         }
 		
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble MatchingCoefficient(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_MatchingCoefficient.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble MongeElkan(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_MongeElkan.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
 		
         [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
         public static SqlDouble NeedlemanWunch(SqlString firstWord, SqlString secondWord)
@@ -85,6 +189,24 @@ using SimMetricsMetricUtilities;
                 return 0;
 
             return new SqlDouble(_NeedlemanWunch.GetUnnormalisedSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble OverlapCoefficient(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_OverlapCoefficient.GetSimilarity(firstWord.Value, secondWord.Value));
+        }
+
+        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+        public static SqlDouble QGramsDistance(SqlString firstWord, SqlString secondWord)
+        {
+            if (firstWord.IsNull || secondWord.IsNull)
+                return 0;
+
+            return new SqlDouble(_QGramsDistance.GetSimilarity(firstWord.Value, secondWord.Value));
         }
 		
         [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
@@ -117,132 +239,5 @@ using SimMetricsMetricUtilities;
         }
 
 
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble Jaro(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_Jaro.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble JaroWinkler(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_JaroWinkler.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble ChapmanLengthDeviation(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_ChapmanLengthDeviation.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble ChapmanMeanLength(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_ChapmanMeanLength.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble QGramsDistance(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_QGramsDistance.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble BlockDistance(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_BlockDistance.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble CosineSimilarity(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_CosineSimilarity.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble DiceSimilarity(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_DiceSimilarity.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble EuclideanDistance(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_EuclideanDistance.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble JaccardSimilarity(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_JaccardSimilarity.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble MatchingCoefficient(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_MatchingCoefficient.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble MongeElkan(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_MongeElkan.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
-
-
-        [Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
-        public static SqlDouble OverlapCoefficient(SqlString firstWord, SqlString secondWord)
-        {
-            if (firstWord.IsNull || secondWord.IsNull)
-                return 0;
-
-            return new SqlDouble(_OverlapCoefficient.GetSimilarity(firstWord.Value, secondWord.Value));
-        }
     }
 
