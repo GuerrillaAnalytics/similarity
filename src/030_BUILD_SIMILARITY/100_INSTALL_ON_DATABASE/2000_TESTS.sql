@@ -1,0 +1,3 @@
+
+SELECT SIMILARITY_001_00.Levenshtein('DAVID','DAVID')
+SELECT SIMILARITY_001_00.LevenshteinUnnormalised('DAVID','DAVID')
