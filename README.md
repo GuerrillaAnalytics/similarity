@@ -11,19 +11,19 @@ The library loads C# assemblies and associated SQL Server functions into a SQL S
 To use these examples in SQL code, simply call the function while specifying its full name. For example:
 <code>
 SELECT SIMILARITY_001_00.Levenshtein('THE QUICK BROWN FOX','THE QUICK FOX')
-<\code>
+</code>
 
 ## Motivation
 
-This project was motivated by the frequent need for fuzzy matching (appproximate string matching) algorithms in data analytics work. These algorithms are missing from SQL Server. 
+This project was motivated by the frequent need for fuzzy matching (approximate string matching) algorithms in data analytics work. These algorithms are missing from SQL Server and many projects do not have the time, licencing, or budget to install additional SQL Server packages such as [SSIS](http://en.wikipedia.org/wiki/SQL_Server_Integration_Services). 
 
 ## Installation
 
 * Download the source code
-* In the root folder of the project, you will find a BUILD.BAT file. 
-* Edit BUILD.BAT as per the instructions within the file. 
-* Execute BUILD.BAT to compile C# code into a DLL and create a HEX string from the DLL file
-* Edit the SQL installation file 1000_DROP_AND_CREATE_ASSEMBLY.SQL to include the HEX strings created by the Build file. Note the Hex string representation of the DLLs is required because a SQL Server database very often does not have permissions to access your local DLL file.
+* In the root folder of the project, you will find a `BUILD.BAT` file. 
+* Edit `BUILD.BAT` as per the instructions within the file. 
+* Execute `BUILD.BAT` to compile C# code into a DLL and create a HEX string from the DLL file
+* Edit the SQL installation file `1000_DROP_AND_CREATE_ASSEMBLY.SQL` to include the HEX strings created by the Build file. Note the Hex string representation of the DLLs is required because a SQL Server database very often does not have permissions to access your local DLL file.
 
 ## API Reference
 
