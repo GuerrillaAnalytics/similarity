@@ -6,10 +6,12 @@ This project is a C# sharp wrapper and SQL Server installation scripts to make t
 
 ## Code Example
 
-The library loads C# assemblies and associated SQL Server functions into a SQL Server database. You can find the functions under as schema with the name of the Similarity version Similarity_<Major version>_<minor version>.
-To use these examples in SQL, simply call the function while specifying its full name. For example:
+The library loads C# assemblies and associated SQL Server functions into a SQL Server database. You can find the functions under a schema with the name of the Similarity library version e.g. `Similarity_<Major version>_<minor version>`.
 
+To use these examples in SQL code, simply call the function while specifying its full name. For example:
+<code>
 SELECT SIMILARITY_001_00.Levenshtein('THE QUICK BROWN FOX','THE QUICK FOX')
+<\code>
 
 ## Motivation
 
