@@ -6,29 +6,37 @@ This project is a C# sharp wrapper and SQL Server installation scripts to make t
 
 ## Code Example
 
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+The library loads C# assemblies and associated SQL Server functions into a SQL Server database. You can find the functions under as schema with the name of the Similarity version Similarity_<Major version>_<minor version>.
+To use these examples in SQL, simply call the function while specifying its full name. For example:
+
+SELECT SIMILARITY_001_00.Levenshtein('THE QUICK BROWN FOX','THE QUICK FOX')
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+This project was motivated by the frequent need for fuzzy matching (appproximate string matching) algorithms in data analytics work. These algorithms are missing from SQL Server. 
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
+* Download the source code
+* In the root folder of the project, you will find a BUILD.BAT file. 
+* Edit BUILD.BAT as per the instructions within the file. 
+* Execute BUILD.BAT to compile C# code into a DLL and create a HEX string from the DLL file
+* Edit the SQL installation file 1000_DROP_AND_CREATE_ASSEMBLY.SQL to include the HEX strings created by the Build file. Note the Hex string representation of the DLLs is required because a SQL Server database very often does not have permissions to access your local DLL file.
 
 ## API Reference
 
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+TODO
 
 ## Tests
 
-Describe and show how to run the tests with code examples.
+TODO
 
 ## Contributors
 
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
+Please feel free to get in touch or to contribute to this project. You can find more on the motivation and associated analytics work at www.guerrilla-analytics.net or in the book [Guerrilla Analytics - a practical approach to working with data](http://www.amazon.co.uk/gp/product/0128002182?ie=UTF8&camp=1634&creativeASIN=0128002182&linkCode=xm2&tag=guerrianalyt-21 "Guerrilla Analytics")
 
 ## License
+* This project is released under the [GPLv3](http://www.gnu.org/copyleft/gpl.html).
+* The SimMetrics library was released under [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html) and can be downloaded from [here](http://sourceforge.net/projects/simmetrics/).
+* This project was inspired by a blogpost by Anastasios Yalanopoulos at [http://anastasiosyal.com/](http://anastasiosyal.com/POST/2009/01/11/18.ASPX?). Please see licence terms in associated code files. 
 
-A short snippet describing the license (MIT, Apache, etc.)
-# similarity 

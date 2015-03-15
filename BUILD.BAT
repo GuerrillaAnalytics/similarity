@@ -1,9 +1,17 @@
 @echo off
+REM -------------------------------------------------------------
+REM BUILD FILE TO COMPILE THIS PROJECT AND LOAD FUNCTIONS INTO 
+REM A SQL SERVER DATABASE
 
 REM -------------------------------------------------------------
+REM INSTRUCTIONS FOR INSTALLATION
 REM SET THE C SHARP COMPILER LOCATION USING BACKSLASHES AND QUOTES
 SET CSC=C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe
 
+REM EXECUTE THE BUILD FILE
+
+REM -------------------------------------------------------------
+REM INSTRUCTIONS FOR DEVELOPERS
 REM NAME THE OUTPUT DLL, DEPENDING ON VERSION NUMBER
 SET OUTPUT_DLL=SIMILARITY_001_00.dll
 
