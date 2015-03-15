@@ -1,6 +1,8 @@
 ## Synopsis
 
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
+This project is a C# sharp wrapper and SQL Server installation scripts to make the SimMetrics string matching algorithms available in SQL Server. 
+SimMetrics was originally released at SourceForge http://sourceforge.net/projects/simmetrics/.
+The c# wrapper was inspired by the blogpost at http://anastasiosyal.com/POST/2009/01/11/18.ASPX?
 
 ## Code Example
 
