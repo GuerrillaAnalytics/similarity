@@ -1,7 +1,7 @@
 ## Synopsis
 
-This project is a C# sharp wrapper and SQL Server installation scripts to make the SimMetrics string matching algorithms available in SQL Server. 
-* SimMetrics was originally released at SourceForge http://sourceforge.net/projects/simmetrics/.
+This project is a C# wrapper and SQL Server installation scripts to make the SimMetrics string matching algorithms available in SQL Server. 
+* SimMetrics was originally released at SourceForge http://sourceforge.net/projects/simmetrics/. This project uses version 1.5 of the library. Subsequent versions were migrated to Java.
 * The C# wrapper was inspired by the blogpost at http://anastasiosyal.com/POST/2009/01/11/18.ASPX?
 
 ## Code Example
