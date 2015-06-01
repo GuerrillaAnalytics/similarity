@@ -5,12 +5,12 @@ This project is a C# wrapper and set of SQL Server installation scripts to make 
 
 Descriptions of the supported string fuzzy match functions are provided on the [wiki home page](https://github.com/GuerrillaAnalytics/similarity/wiki).
 
-]
+
 ## Motivation
 
 This project was motivated by the frequent need for fuzzy matching (approximate string matching) algorithms in data analytics and data science work. These algorithms are missing from [SQL Server](https://en.wikipedia.org/wiki/Microsoft_SQL_Server) and many projects do not have the time, licencing, or budget to install additional SQL Server packages such as [SSIS](http://en.wikipedia.org/wiki/SQL_Server_Integration_Services). 
 
-# Installation
+## Installation
 Installation instructions are provided on the wiki at https://github.com/GuerrillaAnalytics/similarity/wiki/Installation.
 
 ## Code Example
