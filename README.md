@@ -3,7 +3,7 @@ This project is a C# wrapper and set of SQL Server installation scripts to make 
 * SimMetrics was originally released at [SourceForge](http://sourceforge.net/projects/simmetrics/). This project uses version 1.5 of the library. Subsequent versions were migrated to Java.
 * The C# wrapper was inspired by this [blogpost](http://anastasiosyal.com/POST/2009/01/11/18.ASPX)
 
-Descriptions of the supported string fuzzy match functions are provided on the [wiki home page(https://github.com/GuerrillaAnalytics/similarity/wiki).
+Descriptions of the supported string fuzzy match functions are provided on the [wiki home page](https://github.com/GuerrillaAnalytics/similarity/wiki).
 
 ]
 ## Motivation
