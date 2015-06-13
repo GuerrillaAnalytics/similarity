@@ -20,6 +20,8 @@ Semantic versioning properties
 
 <property name="semantic.version" value="${major.version}.${minor.version}.${patch.version}"/>
 
+<!-- Read properties file for build settings -->
+<property file="build.properties" />
 
 
 <target name="init" 
@@ -64,8 +66,14 @@ Semantic versioning properties
 	
 </target>
 
+<target name="build" description="Compile and package all files" depends="init, clean">
 
-<target name="dist" depends="clean,init"
+	
+</target>
+
+
+
+<target name="dist" depends="build"
 	description="Generate the distribution zip file" >
 
 	<!--	Create version info file that application may use -->
