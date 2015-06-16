@@ -31,6 +31,7 @@ Semantic versioning properties
 	<!-- Create the build directory structure used by compile -->
 	<mkdir dir="${dir.build}"/>
 	<mkdir dir="${dir.dist}"/>
+	
 </target>
 
 <target name="clean" depends="init"
@@ -66,11 +67,147 @@ Semantic versioning properties
 	
 </target>
 
-<target name="build" description="Compile and package all files" depends="init, clean">
+<target name="build" description="Build everything from scratch" depends="copy">
+	
+	<echo message="Creating the ashex.exe program"/>
+	<antcall target="build_ashex">
+	</antcall>
+	
+	<echo message="Compiling the Similarity DLL"/>
+	<antcall target="build_similarity_dll">
+	</antcall>
 
+	<echo message="Converting original Simmetrics DLL to hex"/>	
+	<ashex dllFile="${dir.build}/020_BUILD_SIMMETRICS/SimMetrics.dll" hexFile="${dir.build}/SimMetrics_1.5.dll.HEX" />
+	
+	<echo message="Converting Similarity DLL to hex"/>
+	<ashex dllFile="${dir.build}/SIMILARITY_001_00.dll" hexFile="${dir.build}/SIMILARITY_001_00.dll.hex" />
+			
+	<echo message="Replacing new hex code in SQL files"/>	
+	<antcall target="update_hex">
+	</antcall>
+	
+	<echo message="Loading the Similarity DLL into target database"/>	
+	<antcall target="build_load_DLL">
+	</antcall>		
 	
 </target>
 
+<!--
+Copy all files into the build folder in preparation for building
+Text replacements etc are done here
+-->
+<target name="copy" depends="clean">
+	<copy todir="${dir.build}">
+		 <fileset dir="${dir.src}">
+			 <include name="**/**"/>
+		 </fileset>
+	</copy>
+</target>
+
+<!--
+Replace placeholder with hex string for both DLLs
+TODO: change the bin path to build path when I get ashex working
+-->
+<target name="update_hex" >
+	
+	<echo message="Inserting hex string for Simmetrics DLL"/>
+    <loadfile property="simmetrics.hex.value"
+      srcFile="bin\SimMetrics_1.5.dll.HEX"/>
+	<replace 
+		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1000_DROP_AND_CREATE_ASSEMBLY.SQL"
+		value="defaultvalue"
+		>
+	  <replacefilter 
+		token="@SIMMETRICS_DLL@" 
+		value="${simmetrics.hex.value}"/>
+	</replace>
+
+	
+	<echo message="Inserting hex string for Similarity DLL"/>
+    <loadfile property="similarity.hex.value"
+      srcFile="bin\SIMILARITY_001_00.dll.HEX"/>
+	 
+	<replace 
+		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1000_DROP_AND_CREATE_ASSEMBLY.SQL"
+		value="defaultvalue"
+		>
+	  <replacefilter 
+		token="@SIMILARITY_DLL@" 
+		value="${similarity.hex.value}"/>
+	</replace>
+</target>
+
+<!--
+ECHO COMPILE THE SQL SERVER WRAPPER FUNCTIONS INTO A DLL
+ECHO This is the SQL Server Assembly DLL that wrap around the Simmetrics DLL
+%CSC% /r:%SRC_FOLDER%\020_BUILD_SIMMETRICS\SimMetrics.dll /target:library /out:%BIN_FOLDER%\%OUTPUT_DLL% %SRC_FOLDER%\030_BUILD_SIMILARITY\030_DLL\SIMILARITY\Similarity.cs
+-->
+<target name="build_similarity_dll" description="" >
+	<sequential> 
+		 	
+	<exec executable="${csc.exe}" failonerror="true" >
+			<arg value="/r:${dir.src}\020_BUILD_SIMMETRICS\SimMetrics.dll"/>
+			<arg value="/target:library"/>						
+			<arg value="/out:${dir.build}\SIMILARITY_001_00.dll"/>
+			<arg value="${dir.build}\030_BUILD_SIMILARITY\030_DLL\SIMILARITY\Similarity.cs"/>
+			
+	</exec>
+	
+	</sequential> 
+	
+</target>
+
+<!--
+Execute SQL files to load DLL into database
+-->
+<target name="build_load_DLL"  >
+	<sequential>
+		<macro_sqlcmd file="${dir.build}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1000_DROP_AND_CREATE_ASSEMBLY.SQL" />
+		<macro_sqlcmd file="${dir.build}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/2000_TESTS.SQL" />
+	</sequential> 
+	<echo message="-----------------------------------------------------"/>
+	<echo message=""/>	
+</target>
+
+<!--
+Create the ashex executable for creating hex string from a DLL
+-->
+<target name="build_ashex" description="Compile and package all files" >
+	<sequential> 
+		<vcs_compiler dir="${dir.build}/030_BUILD_SIMILARITY/010_HEXIFY" /> 
+	</sequential> 
+		
+</target>
+
+<!-- *************************************************************** -->
+<!-- 
+C Sharp compiler 
+%CSC% /out:%BIN_FOLDER%\ashex.exe %SRC_FOLDER%\030_BUILD_SIMILARITY\010_HEXIFY\ashex.cs 
+-->
+<!-- *************************************************************** -->	
+<macrodef name="vcs_compiler" description="VCS .Net compile a directory of code ">
+	<attribute name="dir" description="Code directory to compile"/>
+	<sequential>
+		<apply executable="${csc.exe}"  parallel="false">
+			<arg value="/out:${dir.build}/ashex.exe"/>		
+			<fileset dir="@{dir}" includes="*.cs" erroronmissingdir="true">
+			</fileset>
+		</apply>
+	</sequential>
+</macrodef>
+
+
+<macrodef name="ashex" description="Execute the ashed tool and convert a DLL to a hex file">
+	<attribute name="dllFile" description="The dll file to convert"/>
+	<attribute name="hexFile" description="The target hex file to output"/>
+		
+	<sequential>
+		<exec executable="${dir.build}/ashex.exe" failonerror="true">
+			<arg value="&lt; @{dllFile} &gt; @{hexFile}"/>	
+		</exec>
+	</sequential>
+</macrodef>
 
 
 <target name="dist" depends="build"
@@ -128,7 +265,47 @@ Semantic versioning properties
 	</java>
 </target>
 
+	
+<macrodef name="macro_sqlcmd" description="SQLCMD macro">
 
+<attribute name="file" description="SQL code file to execute"/>
+
+<sequential>
+	<echo message="-----------------------------------------------------"/> 
+	<!-- output some messages about what we're doing	-->
+	<echo message=" "/> 	
+	<echo message="@{file}"/> 	
+	
+	<exec executable="${sqlserver.cmd}" failonerror="true">
+		<!-- 
+		sqlcmd has to have quoted identifiers switched on, regardless of what is
+		written in your scripts
+		http://www.brandonmartinez.com/2013/06/18/sql-delete-or-insert-fail-with-incorrect-quoted_identifier-set-options/
+		-->
+		<arg value="-I"/>
+		<arg value="-b"/>		<!-- On error, batch report -->
+		<arg value="-e"/>		<!-- Echo input -->
+		<arg value="-d"/>		<!-- Database name-->
+		<arg value="${db.database}"/> 
+
+		<!-- Server -->
+		<arg value="-S"/>		
+		<arg value="${db.machine}\${db.instance}"/>
+		
+		<!-- Input file  -->
+		<arg value="-i"/>
+		<arg value="@{file}"/>	
+		
+		<!-- output log -->
+		<arg value="-o"/>
+		<arg value="${dir.build}/sql.log"/>
+	</exec>
+
+
+	<echo message=" "/> 
+</sequential>
+</macrodef>
+	
 <target name="about">
 	<echo message=""/> 
 	<echo message="----------------------------------------------------------------"/>

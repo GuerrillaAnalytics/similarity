@@ -2,3 +2,4 @@
 BIN
 
 /BIN/*.exe
+/build
