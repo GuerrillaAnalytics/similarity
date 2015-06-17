@@ -117,10 +117,10 @@ TODO: change the bin path to build path when I get ashex working
 	<!-- insert the hex string into the Similarity DLL load	-->
 	<echo message="Inserting hex string for Similarity DLL"/>
     <loadfile property="similarity.hex.value"
-      srcFile="${dir.build}\SIMILARITY_001_00.dll.HEX"/>
+      srcFile="${dir.build}/SIMILARITY_001_00.dll.HEX"/>
 	 
 	<replace 
-		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1200_CREATE_ASSEMBLIES.SQL"
+		file="${dir.build}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1200_CREATE_ASSEMBLIES.SQL"
 		value="defaultvalue"
 		>
 	  <replacefilter 
@@ -138,9 +138,9 @@ ECHO This is the SQL Server Assembly DLL that wrap around the Simmetrics DLL
 	<sequential> 
 		 	
 	<exec executable="${csc.exe}" failonerror="true" >
-			<arg value="/r:${dir.src}\020_BUILD_SIMMETRICS\SimMetrics.dll"/>
+			<arg value="/r:${dir.build}/020_BUILD_SIMMETRICS/SimMetrics.dll"/>
 			<arg value="/target:library"/>						
-			<arg value="/out:${dir.build}\SIMILARITY_001_00.dll"/>
+			<arg value="/out:${dir.build}/SIMILARITY_001_00.dll"/>
 			<arg value="${dir.build}\030_BUILD_SIMILARITY\030_DLL\SIMILARITY\Similarity.cs"/>
 			
 	</exec>
