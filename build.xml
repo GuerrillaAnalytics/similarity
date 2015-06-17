@@ -52,16 +52,20 @@ Semantic versioning properties
 	<antcall target="build_ashex">
 	</antcall>
 	
+	<echo message=""/>
 	<echo message="Compiling the Similarity DLL"/>
 	<antcall target="build_similarity_dll">
 	</antcall>
 
+	<echo message=""/>
 	<echo message="Converting original Simmetrics DLL to hex"/>	
 	<ashex dllFile="${dir.build}/020_BUILD_SIMMETRICS/SimMetrics.dll" hexFile="${dir.build}/SimMetrics_1.5.dll.HEX" />
 	
+	<echo message=""/>
 	<echo message="Converting Similarity DLL to hex"/>
 	<ashex dllFile="${dir.build}/SIMILARITY_001_00.dll" hexFile="${dir.build}/SIMILARITY_001_00.dll.hex" />
-			
+	
+	<echo message=""/>
 	<echo message="Replacing new hex code in SQL files"/>	
 	<antcall target="update_hex">
 	</antcall>
@@ -101,7 +105,7 @@ TODO: change the bin path to build path when I get ashex working
       srcFile="${dir.build}\SimMetrics_1.5.dll.HEX"/>
 	
 	<replace 
-		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1000_DROP_AND_CREATE_ASSEMBLY.SQL"
+		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1200_CREATE_ASSEMBLIES.SQL"
 		value="defaultvalue"
 		>
 	  <replacefilter 
@@ -116,7 +120,7 @@ TODO: change the bin path to build path when I get ashex working
       srcFile="${dir.build}\SIMILARITY_001_00.dll.HEX"/>
 	 
 	<replace 
-		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1000_DROP_AND_CREATE_ASSEMBLY.SQL"
+		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1200_CREATE_ASSEMBLIES.SQL"
 		value="defaultvalue"
 		>
 	  <replacefilter 
@@ -150,7 +154,8 @@ Execute SQL files to load DLL into database
 -->
 <target name="build_load_DLL"  >
 	<sequential>
-		<macro_sqlcmd file="${dir.build}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1000_DROP_AND_CREATE_ASSEMBLY.SQL" />
+		<macro_sqlcmd file="${dir.build}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1000_DROP_ASSEMBLIES.SQL" />
+		<macro_sqlcmd file="${dir.build}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1200_CREATE_ASSEMBLIES.SQL" />
 		<macro_sqlcmd file="${dir.build}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/2000_TESTS.SQL" />
 	</sequential> 
 	<echo message="-----------------------------------------------------"/>
