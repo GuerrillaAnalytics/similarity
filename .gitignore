@@ -1,4 +1,5 @@
 /src/010_HEXIFY/*.exe
-BIN
+/BIN
 
 /BIN/*.exe
+/build
