@@ -43,7 +43,7 @@ Semantic versioning properties
 	</delete>
 	
 	<!-- TODO remove everything from the database 	-->
-	
+		<macro_sqlcmd file="${dir.src}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1000_DROP_ASSEMBLIES.SQL" />
 </target>
 
 <target name="build" description="Build everything from scratch" depends="copy">
@@ -132,17 +132,20 @@ TODO: change the bin path to build path when I get ashex working
 <!--
 ECHO COMPILE THE SQL SERVER WRAPPER FUNCTIONS INTO A DLL
 ECHO This is the SQL Server Assembly DLL that wrap around the Simmetrics DLL
-%CSC% /r:%SRC_FOLDER%\020_BUILD_SIMMETRICS\SimMetrics.dll /target:library /out:%BIN_FOLDER%\%OUTPUT_DLL% %SRC_FOLDER%\030_BUILD_SIMILARITY\030_DLL\SIMILARITY\Similarity.cs
+See examples here:
+https://msdn.microsoft.com/en-us/library/ms379563(v=vs.80).aspx
 -->
 <target name="build_similarity_dll" description="" >
 	<sequential> 
 		 	
 	<exec executable="${csc.exe}" failonerror="true" >
-			<arg value="/r:${dir.build}/020_BUILD_SIMMETRICS/SimMetrics.dll"/>
+			<arg value="/reference:${dir.build}/020_BUILD_SIMMETRICS/SimMetrics.dll"/>
 			<arg value="/target:library"/>						
 			<arg value="/out:${dir.build}/SIMILARITY_001_00.dll"/>
+			<!--
 			<arg value="${dir.build}\030_BUILD_SIMILARITY\030_DLL\SIMILARITY\Similarity.cs"/>
-			
+			-->
+			<arg value="/recurse:${dir.build}\030_BUILD_SIMILARITY\030_DLL\SIMILARITY\*.cs"/>
 	</exec>
 	
 	</sequential> 
