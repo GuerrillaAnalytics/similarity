@@ -6,28 +6,23 @@
 <!-- **********************************************************************-->
 <!-- Project directories -->
 <!-- **********************************************************************-->
-<property name="dir.src" location="src"/>
-<property name="dir.build" location="build"/>
-<property name="dir.dist"  location="dist"/>
+<property name="dir.src" location="src"/>		<!-- source code 			-->
+<property name="dir.build" location="build"/>	<!-- build folder			-->
+<property name="dir.dist"  location="dist"/>	<!-- distribution folder 	-->
 
-<!-- *****************************************************************
-Semantic versioning properties
--->
-<property name="major.version" value="1"/>
-<property name="minor.version" value="0"/>
-<property name="patch.version" value="0"/>
-
-
-<property name="semantic.version" value="${major.version}.${minor.version}.${patch.version}"/>
 
 <!-- Read properties file for build settings -->
 <property file="build.properties" />
 
+<!-- *****************************************************************
+Semantic versioning properties
+-->
+<property name="semantic.version" value="${major.version}.${minor.version}.${patch.version}"/>
+
+
 
 <target name="init" 
 	description="Create the project folder structure for executing project build">
-	<!-- Create the time stamp -->
-	<tstamp/>
 	<!-- Create the build directory structure used by compile -->
 	<mkdir dir="${dir.build}"/>
 	<mkdir dir="${dir.dist}"/>
@@ -36,26 +31,8 @@ Semantic versioning properties
 
 <target name="clean" depends="init"
 	description="Clean up temp folders and files" >
-	
-	
-	<!-- Delete the ${build} and ${dist} directory trees -->
-<!--
-	<if>
-	  <available file="${dir.build}" type="dir" />
-	  <then>
-		<delete dir="${dir.build}"/>
-	  </then>
-	</if>
 
-	<if>
-	  <available file="${dir.dist}" type="dir" />
-	  <then>
-		<delete dir="${dir.dist}"/>
-	  </then>
-	</if>	
--->	
-	
-	
+	<!-- Clean up build folder 	-->
 	<delete includeEmptyDirs="true">
 		<fileset dir="${dir.build}">
 			<include name="*/**" />
@@ -64,6 +41,8 @@ Semantic versioning properties
 			<include name="*/**" />
 		</fileset>
 	</delete>
+	
+	<!-- TODO remove everything from the database 	-->
 	
 </target>
 
@@ -87,12 +66,17 @@ Semantic versioning properties
 	<antcall target="update_hex">
 	</antcall>
 	
-	<echo message="Loading the Similarity DLL into target database"/>	
-	<antcall target="build_load_DLL">
-	</antcall>		
+	
 	
 </target>
 
+<target name="install" description="Installs onto database" depends="build">
+	<echo message="Loading the Similarity DLL into target database"/>	
+	<antcall target="build_load_DLL">
+	</antcall>	
+</target>
+
+	
 <!--
 Copy all files into the build folder in preparation for building
 Text replacements etc are done here
@@ -111,9 +95,11 @@ TODO: change the bin path to build path when I get ashex working
 -->
 <target name="update_hex" >
 	
+	<!-- insert the hex string into the Simmetrics DLL load	-->
 	<echo message="Inserting hex string for Simmetrics DLL"/>
     <loadfile property="simmetrics.hex.value"
-      srcFile="bin\SimMetrics_1.5.dll.HEX"/>
+      srcFile="${dir.build}\SimMetrics_1.5.dll.HEX"/>
+	
 	<replace 
 		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1000_DROP_AND_CREATE_ASSEMBLY.SQL"
 		value="defaultvalue"
@@ -124,9 +110,10 @@ TODO: change the bin path to build path when I get ashex working
 	</replace>
 
 	
+	<!-- insert the hex string into the Similarity DLL load	-->
 	<echo message="Inserting hex string for Similarity DLL"/>
     <loadfile property="similarity.hex.value"
-      srcFile="bin\SIMILARITY_001_00.dll.HEX"/>
+      srcFile="${dir.build}\SIMILARITY_001_00.dll.HEX"/>
 	 
 	<replace 
 		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1000_DROP_AND_CREATE_ASSEMBLY.SQL"
@@ -173,9 +160,10 @@ Execute SQL files to load DLL into database
 <!--
 Create the ashex executable for creating hex string from a DLL
 -->
-<target name="build_ashex" description="Compile and package all files" >
+<target name="build_ashex" description="Compile the ashex.exe program for hex conversion" >
 	<sequential> 
-		<vcs_compiler dir="${dir.build}/030_BUILD_SIMILARITY/010_HEXIFY" /> 
+		<vcs_compiler 	dirInput="${dir.build}/030_BUILD_SIMILARITY/010_HEXIFY" 
+						dirOutput="${dir.build}"/> 
 	</sequential> 
 		
 </target>
@@ -186,25 +174,30 @@ C Sharp compiler
 %CSC% /out:%BIN_FOLDER%\ashex.exe %SRC_FOLDER%\030_BUILD_SIMILARITY\010_HEXIFY\ashex.cs 
 -->
 <!-- *************************************************************** -->	
-<macrodef name="vcs_compiler" description="VCS .Net compile a directory of code ">
-	<attribute name="dir" description="Code directory to compile"/>
+<macrodef name="vcs_compiler" description="VCS .Net compile a directory of code">
+	<attribute name="dirInput" description="Code directory to compile"/>
+	<attribute name="dirOutput" description="Directory to write output into"/>
 	<sequential>
 		<apply executable="${csc.exe}"  parallel="false">
-			<arg value="/out:${dir.build}/ashex.exe"/>		
-			<fileset dir="@{dir}" includes="*.cs" erroronmissingdir="true">
+			<arg value="/out:@{dirOutput}/ashex.exe"/>		
+			<fileset dir="@{dirInput}" includes="*.cs" erroronmissingdir="true">
 			</fileset>
 		</apply>
 	</sequential>
 </macrodef>
 
-
+<!-- 
+Note that ashex is wrapped in a batch script. I couldn't successfully pass the greater than
+and less than arguments from Ant
+-->
 <macrodef name="ashex" description="Execute the ashed tool and convert a DLL to a hex file">
 	<attribute name="dllFile" description="The dll file to convert"/>
 	<attribute name="hexFile" description="The target hex file to output"/>
 		
 	<sequential>
-		<exec executable="${dir.build}/ashex.exe" failonerror="true">
-			<arg value="&lt; @{dllFile} &gt; @{hexFile}"/>	
+		<exec executable="${dir.build}/scripts/run_ashex.bat" failonerror="true">
+			<arg value="@{dllFile}"/>
+			<arg value="@{hexFile}"/>	
 		</exec>
 	</sequential>
 </macrodef>
@@ -256,7 +249,9 @@ C Sharp compiler
 </target>
 
   
-<!-- Default into help info-->	
+<!-- 
+Default into help info
+-->	
 <target name="projecthelp" >
 	<java classname="org.apache.tools.ant.Main">
 	  <arg value="-projecthelp" />
@@ -265,7 +260,10 @@ C Sharp compiler
 	</java>
 </target>
 
-	
+
+<!--	
+This macro assumes a trusted connection to SQL Server
+-->
 <macrodef name="macro_sqlcmd" description="SQLCMD macro">
 
 <attribute name="file" description="SQL code file to execute"/>
@@ -305,11 +303,5 @@ C Sharp compiler
 	<echo message=" "/> 
 </sequential>
 </macrodef>
-	
-<target name="about">
-	<echo message=""/> 
-	<echo message="----------------------------------------------------------------"/>
-</target>
-	
-	
+		
 </project>
