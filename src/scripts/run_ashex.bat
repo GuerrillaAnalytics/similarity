@@ -2,6 +2,7 @@
 echo.
 echo.
 echo -----------------------------------------------------------------
+echo %~nx0
 echo Convert DLL file to Hex file
 echo.
 
