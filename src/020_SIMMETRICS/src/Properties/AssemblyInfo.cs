@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly : AssemblyCompany("Open Source")]
 [assembly : AssemblyProduct("SimMetrics")]
 [assembly :
-    AssemblyCopyright("Copyright © Sam Chapman for original Java code 2004, Chris Parkinson for this .NET 2.0 version 2006")]
+    AssemblyCopyright("")]
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
 
