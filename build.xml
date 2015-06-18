@@ -43,10 +43,6 @@ Semantic versioning properties
 		</fileset>
 	</delete>
 	
-	<!-- TODO remove everything from the database 	-->
-	<!--
-		<macro_sqlcmd file="${dir.src}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1000_DROP_ASSEMBLIES.SQL" />
-	-->
 </target>
 
 <target name="build" description="Build everything from scratch" depends="copy">
@@ -176,7 +172,7 @@ Replace placeholder with hex string for both DLLs
       srcFile="${dir.build}\SimMetrics_1.5.dll.HEX"/>
 	
 	<replace 
-		file="${dir.build}\030_BUILD_SIMILARITY\100_INSTALL_ON_DATABASE\1200_CREATE_ASSEMBLIES.SQL"
+		file="${dir.build}\100_install\1200_CREATE_ASSEMBLIES.SQL"
 		value="defaultvalue"
 		>
 	  <replacefilter 
@@ -191,7 +187,7 @@ Replace placeholder with hex string for both DLLs
       srcFile="${dir.build}/SIMILARITY_001_00.dll.HEX"/>
 	 
 	<replace 
-		file="${dir.build}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1200_CREATE_ASSEMBLIES.SQL"
+		file="${dir.build}/100_install/1200_CREATE_ASSEMBLIES.SQL"
 		value="defaultvalue"
 		>
 	  <replacefilter 
@@ -228,9 +224,9 @@ Expects: base directory
 <target name="load_onto_database"  >
 	
 	<sequential>
-		<macro_sqlcmd file="${baseDir}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1000_DROP_ASSEMBLIES.SQL" />
-		<macro_sqlcmd file="${baseDir}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/1200_CREATE_ASSEMBLIES.SQL" />
-		<macro_sqlcmd file="${baseDir}/030_BUILD_SIMILARITY/100_INSTALL_ON_DATABASE/2000_TESTS.SQL" />
+		<macro_sqlcmd file="${baseDir}/100_install/1000_DROP_ASSEMBLIES.SQL" />
+		<macro_sqlcmd file="${baseDir}/100_install/1200_CREATE_ASSEMBLIES.SQL" />
+		<macro_sqlcmd file="${baseDir}/100_install/2000_TESTS.SQL" />
 	</sequential> 
 	<echo message="-----------------------------------------------------"/>
 	<echo message=""/>	
