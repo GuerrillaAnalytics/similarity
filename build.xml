@@ -1,4 +1,4 @@
-<project name="Similarity" default="projecthelp" > 
+<project name="similarity" default="projecthelp" > 
 <!-- 
 	Project build file
 -->	
@@ -15,12 +15,17 @@
 <property file="build.properties" />
 
 <!-- *****************************************************************
-Semantic versioning properties
+Semantic versioning properties for Similarity
 -->
 <property name="semantic.version" value="${major.version}.${minor.version}.${patch.version}"/>
 <property name="file.name" value="${ant.project.name}-${semantic.version}"/>
 <property name="file.dist" value="${file.name}.zip"/>
 
+<!-- *****************************************************************
+Semantic versioning properties for SimMetrics
+-->
+<property name="simmetrics.semantic.version" value="${simmetrics.major.version}.${simmetrics.minor.version}.${simmetrics.patch.version}"/>
+<property name="simmetrics.file.name" value="simmetrics-${simmetrics.semantic.version}"/>
 
 
 <target name="init" 
@@ -97,7 +102,7 @@ Semantic versioning properties
 
 	<echo message=""/>
 	<echo message="Converting original SimMetrics DLL to hex"/>	
-	<ashex dllFile="${dir.build}/SIMMETRICS_1_5_0.dll" hexFile="${dir.build}/SIMMETRICS_1_5_0.dll.HEX" />
+	<ashex dllFile="${dir.build}/${simmetrics.file.name}.dll" hexFile="${dir.build}/${simmetrics.file.name}.dll.HEX" />
 	
 	<echo message=""/>
 	<echo message="Converting Similarity DLL to hex"/>
@@ -174,7 +179,7 @@ Replace placeholder with hex string for both DLLs
 	<!-- insert the hex string into the Simmetrics DLL load	-->
 	<echo message="Inserting hex string for Simmetrics DLL"/>
     <loadfile property="simmetrics.hex.value"
-      srcFile="${dir.build}\SIMMETRICS_1_5_0.dll.HEX"/>
+      srcFile="${dir.build}\${simmetrics.file.name}.dll.HEX"/>
 	
 	<replace 
 		file="${dir.build}\100_install\1200_CREATE_ASSEMBLIES.SQL"
@@ -211,7 +216,7 @@ https://msdn.microsoft.com/en-us/library/ms379563(v=vs.80).aspx
 	<sequential> 
 		 	
 	<exec executable="${csc.exe}" failonerror="true" >
-			<arg value="/reference:${dir.build}/SIMMETRICS_1_5_0.dll"/>
+			<arg value="/reference:${dir.build}/${simmetrics.file.name}.dll"/>
 			<arg value="/target:library"/>						
 			<arg value="/out:${dir.build}/${file.name}.dll"/>
 
@@ -226,10 +231,10 @@ https://msdn.microsoft.com/en-us/library/ms379563(v=vs.80).aspx
 <target name="build_simmetrics_dll" description="Builds the SimMetrics DLL" >
 	<sequential> 
 	
-	<echo message="Creating DLL in ${dir.build}/SIMMETRICS_1_5_0.dll" />	
+	<echo message="Creating DLL in ${dir.build}/${simmetrics.file.name}.dll" />	
 	<exec executable="${csc.exe}" failonerror="true" >
 			<arg value="/target:library"/>						
-			<arg value="/out:${dir.build}/SIMMETRICS_1_5_0.dll"/>
+			<arg value="/out:${dir.build}/${simmetrics.file.name}.dll"/>
 
 			<arg value="/recurse:${dir.build}\020_SIMMETRICS\src\*.cs"/>
 	</exec>
