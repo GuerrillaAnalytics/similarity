@@ -1,4 +1,0 @@
-C:\Users\Eridge\Documents\dev\code\Similarity\SimMetrics\SimMetricsv1.5-2006-09-24\SimMetricsv1.5\SimMetrics\bin\Release\SimMetrics.XML
-C:\Users\Eridge\Documents\dev\code\Similarity\SimMetrics\SimMetricsv1.5-2006-09-24\SimMetricsv1.5\SimMetrics\bin\Release\SimMetrics.dll
-C:\Users\Eridge\Documents\dev\code\Similarity\SimMetrics\SimMetricsv1.5-2006-09-24\SimMetricsv1.5\SimMetrics\obj\Release\SimMetrics.dll
-C:\Users\Eridge\Documents\dev\code\Similarity\SimMetrics\SimMetricsv1.5-2006-09-24\SimMetricsv1.5\SimMetrics\obj\Release\SimMetrics.csprojResolveAssemblyReference.cache
