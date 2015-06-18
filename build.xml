@@ -96,7 +96,7 @@ Semantic versioning properties
 
 	<echo message=""/>
 	<echo message="Converting original Simmetrics DLL to hex"/>	
-	<ashex dllFile="${dir.build}/020_BUILD_SIMMETRICS/SimMetrics.dll" hexFile="${dir.build}/SimMetrics_1.5.dll.HEX" />
+	<ashex dllFile="${dir.build}/020_SIMMETRICS/SimMetrics.dll" hexFile="${dir.build}/SimMetrics_1.5.dll.HEX" />
 	
 	<echo message=""/>
 	<echo message="Converting Similarity DLL to hex"/>
@@ -210,13 +210,11 @@ https://msdn.microsoft.com/en-us/library/ms379563(v=vs.80).aspx
 	<sequential> 
 		 	
 	<exec executable="${csc.exe}" failonerror="true" >
-			<arg value="/reference:${dir.build}/020_BUILD_SIMMETRICS/SimMetrics.dll"/>
+			<arg value="/reference:${dir.build}/020_SIMMETRICS/SimMetrics.dll"/>
 			<arg value="/target:library"/>						
 			<arg value="/out:${dir.build}/SIMILARITY_001_00.dll"/>
-			<!--
-			<arg value="${dir.build}\030_BUILD_SIMILARITY\030_DLL\SIMILARITY\Similarity.cs"/>
-			-->
-			<arg value="/recurse:${dir.build}\030_BUILD_SIMILARITY\030_DLL\SIMILARITY\*.cs"/>
+
+			<arg value="/recurse:${dir.build}\030_BUILD_SIMILARITY\030_DLL\*.cs"/>
 	</exec>
 	
 	</sequential> 
@@ -243,7 +241,7 @@ Create the ashex executable for creating hex string from a DLL
 -->
 <target name="build_ashex" description="Compile the ashex.exe program for hex conversion. Use when developing the ashex C Sharp code" >
 	<sequential> 
-		<vcs_compiler 	dirInput="${dir.build}/030_BUILD_SIMILARITY/010_HEXIFY" 
+		<vcs_compiler 	dirInput="${dir.build}/030_BUILD_SIMILARITY/010_ashex" 
 						dirOutput="${dir.build}"/> 
 	</sequential> 
 		
