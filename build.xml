@@ -18,8 +18,8 @@
 Semantic versioning properties
 -->
 <property name="semantic.version" value="${major.version}.${minor.version}.${patch.version}"/>
-<property name="file.dist" value="${ant.project.name}-${semantic.version}.zip"/>
-
+<property name="file.name" value="${ant.project.name}-${semantic.version}"/>
+<property name="file.dist" value="${file.name}.zip"/>
 
 
 
@@ -101,7 +101,7 @@ Semantic versioning properties
 	
 	<echo message=""/>
 	<echo message="Converting Similarity DLL to hex"/>
-	<ashex dllFile="${dir.build}/SIMILARITY_001_00.dll" hexFile="${dir.build}/SIMILARITY_001_00.dll.HEX" />
+	<ashex dllFile="${dir.build}/${file.name}.dll" hexFile="${dir.build}/${file.name}.dll.HEX" />
 	
 	<echo message=""/>
 	<echo message="Replacing new hex code in SQL files"/>	
@@ -189,7 +189,7 @@ Replace placeholder with hex string for both DLLs
 	<!-- insert the hex string into the Similarity DLL load	-->
 	<echo message="Inserting hex string for Similarity DLL"/>
     <loadfile property="similarity.hex.value"
-      srcFile="${dir.build}/SIMILARITY_001_00.dll.HEX"/>
+      srcFile="${dir.build}/${file.name}.dll.HEX"/>
 	 
 	<replace 
 		file="${dir.build}/100_install/1200_CREATE_ASSEMBLIES.SQL"
@@ -213,7 +213,7 @@ https://msdn.microsoft.com/en-us/library/ms379563(v=vs.80).aspx
 	<exec executable="${csc.exe}" failonerror="true" >
 			<arg value="/reference:${dir.build}/SIMMETRICS_1_5_0.dll"/>
 			<arg value="/target:library"/>						
-			<arg value="/out:${dir.build}/SIMILARITY_001_00.dll"/>
+			<arg value="/out:${dir.build}/${file.name}.dll"/>
 
 			<arg value="/recurse:${dir.build}\030_BUILD_SIMILARITY\030_DLL\*.cs"/>
 	</exec>
